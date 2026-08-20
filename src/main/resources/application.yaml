@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: data_project
+  datasource:
+    url: ${DB_URL:jdbc:mysql://localhost:3306/data_project}
+    username: ${DB_USERNAME:data_project}
+    password: ${DB_PASSWORD:changeme}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+
+server:
+  port: ${SERVER_PORT:8080}
+
+app:
+  cors:
+    allowed-origin: ${CORS_ALLOWED_ORIGIN:http://localhost:3000}
+  data-go-kr:
+    key: ${DATA_GO_KR_KEY:}
+    base-url: https://apis.data.go.kr/B553077/api/open/sdsc2
+  openai:
+    key: ${OPENAI_API_KEY:}
+    base-url: https://api.openai.com/v1
+    model: gpt-4o-mini
