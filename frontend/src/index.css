@@ -1,0 +1,27 @@
+:root {
+	--bg: #f7f5f2;
+	--surface: #ffffff;
+	--border: #e5e0d8;
+	--text: #23201c;
+	--text-muted: #6b6459;
+	--accent: #d9480f;
+	--accent-hover: #bf3b0a;
+	color-scheme: light;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+	height: 100%;
+}
+
+body {
+	margin: 0;
+	font-family: "Pretendard", -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+	background: var(--bg);
+	color: var(--text);
+}
