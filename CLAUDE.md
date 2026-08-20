@@ -32,7 +32,9 @@
 - DB: MySQL 8 (Docker 컨테이너)
 - AI: OpenAI **gpt-4o-mini** (호출은 백엔드에서만)
 - 외부 데이터: 소상공인시장진흥공단 상가(상권)정보 오픈API (data.go.kr)
-- 배포: Vercel(프론트) + Oracle Cloud Always Free VM(백엔드, **ARM aarch64**) + Cloudflare Tunnel(HTTPS)
+- 배포: Vercel(프론트) + 연구실 라즈베리파이(백엔드, **ARM aarch64**, RAM 4GB+) + Cloudflare Tunnel(HTTPS)
+  (Oracle Cloud 가입 절차 마찰로 대체 — miseprep 프로젝트에서 썼던 것과 동일한 패턴.
+  Cloudflare Tunnel은 아웃바운드 연결만 쓰므로 라즈베리파이가 NAT/방화벽 뒤에 있어도 무관)
 
 ## 아키텍처 규칙 (반드시 준수)
 - **모든 외부 API 키(OpenAI, data.go.kr)는 백엔드에만.** 프론트 번들/env에 절대 노출 금지.
