@@ -36,9 +36,11 @@ export default function QueryForm({ onSubmit, loading }) {
 					</button>
 				))}
 			</div>
-			<button className="submit-button" type="submit" disabled={loading || !message.trim()}>
-				{loading ? "분석 중..." : "AI 상권 분석 받기"}
-			</button>
+			<div className="form-footer">
+				<button className="submit-button" type="submit" disabled={loading || !message.trim()}>
+					{loading ? "분석 중..." : "AI 상권 분석 받기"}
+				</button>
+			</div>
 		</form>
 	);
 }

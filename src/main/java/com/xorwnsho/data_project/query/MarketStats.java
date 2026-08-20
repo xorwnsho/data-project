@@ -6,6 +6,7 @@ import java.util.Map;
 public record MarketStats(
 		String regionName,
 		String industryKeyword,
+		List<String> industryTargets,
 		int totalStoreCount,
 		int competitorCount,
 		Map<String, Long> industryBreakdown,

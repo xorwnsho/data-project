@@ -28,8 +28,11 @@ export default function App() {
 	return (
 		<div className="app">
 			<header className="app-header">
-				<h1>대전·세종 AI 입지분석 상담사</h1>
-				<p>소상공인시장진흥공단 상가업소 데이터를 근거로, 자연어로 물어보면 AI가 상권을 해석해드립니다.</p>
+				<div className="app-badge">AI</div>
+				<div>
+					<h1>대전·세종 AI 입지분석 상담사</h1>
+					<p>소상공인시장진흥공단 상가업소 데이터를 근거로, 자연어로 물어보면 AI가 상권을 해석해드립니다.</p>
+				</div>
 			</header>
 
 			<main className="app-main">
@@ -40,7 +43,7 @@ export default function App() {
 				{result && (
 					<div className="result-grid">
 						<ReportPanel result={result} />
-						<StoreMap stores={result.stats.stores} />
+						<StoreMap stats={result.stats} />
 					</div>
 				)}
 			</main>

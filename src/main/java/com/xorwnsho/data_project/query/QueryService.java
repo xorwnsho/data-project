@@ -55,7 +55,8 @@ public class QueryService {
 				.toList();
 
 		String industryLabel = industryMatch == null ? null : industryMatch.label();
-		return new MarketStats(regionName, industryLabel, stores.size(), (int) competitorCount, breakdown, summaries);
+		List<String> industryTargets = industryMatch == null ? List.of() : industryMatch.targets();
+		return new MarketStats(regionName, industryLabel, industryTargets, stores.size(), (int) competitorCount, breakdown, summaries);
 	}
 
 	private boolean matchesIndustry(StoreEntity store, List<String> targets) {

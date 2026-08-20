@@ -6,6 +6,8 @@ function topBreakdown(breakdown, limit = 5) {
 
 export default function ReportPanel({ result }) {
 	const { report, stats } = result;
+	const breakdown = topBreakdown(stats.industryBreakdown);
+	const maxCount = breakdown.length > 0 ? breakdown[0][1] : 1;
 
 	return (
 		<section className="report-panel">
@@ -34,14 +36,20 @@ export default function ReportPanel({ result }) {
 
 			<div className="breakdown">
 				<h3>업종별 분포 (상위 5)</h3>
-				<ul>
-					{topBreakdown(stats.industryBreakdown).map(([name, count]) => (
-						<li key={name}>
-							<span>{name}</span>
-							<span>{count}개</span>
-						</li>
+				<div className="breakdown-list">
+					{breakdown.map(([name, count]) => (
+						<div className="breakdown-row" key={name}>
+							<span className="breakdown-name" title={name}>{name}</span>
+							<div className="breakdown-track">
+								<div
+									className="breakdown-fill"
+									style={{ width: `${Math.max((count / maxCount) * 100, 4)}%` }}
+								/>
+							</div>
+							<span className="breakdown-count">{count}개</span>
+						</div>
 					))}
-				</ul>
+				</div>
 			</div>
 		</section>
 	);
