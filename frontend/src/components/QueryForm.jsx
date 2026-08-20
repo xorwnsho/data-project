@@ -6,8 +6,8 @@ const EXAMPLES = [
 	"나성동 편의점 자리 어때?",
 ];
 
-export default function QueryForm({ onSubmit, loading }) {
-	const [message, setMessage] = useState("");
+export default function QueryForm({ onSubmit, loading, initialMessage }) {
+	const [message, setMessage] = useState(initialMessage ?? "");
 
 	function handleSubmit(e) {
 		e.preventDefault();
