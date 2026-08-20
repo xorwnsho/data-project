@@ -27,4 +27,12 @@ public class RestClientConfig {
 				.defaultHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
 				.build();
 	}
+
+	@Bean
+	public RestClient nominatimRestClient() {
+		return RestClient.builder()
+				.baseUrl("https://nominatim.openstreetmap.org")
+				.defaultHeader("User-Agent", "daejeon-sejong-sangkwon-ai/0.1 (public-data hackathon submission)")
+				.build();
+	}
 }

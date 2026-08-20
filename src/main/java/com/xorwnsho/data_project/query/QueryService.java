@@ -1,6 +1,8 @@
 package com.xorwnsho.data_project.query;
 
 import com.xorwnsho.data_project.ai.ReportGenerator;
+import com.xorwnsho.data_project.geo.GeocodingService;
+import com.xorwnsho.data_project.geo.Location;
 import com.xorwnsho.data_project.store.StoreEntity;
 import com.xorwnsho.data_project.store.StoreService;
 import lombok.RequiredArgsConstructor;
@@ -19,14 +21,16 @@ public class QueryService {
 	private static final int RADIUS_METERS = 500;
 
 	private final RegionDictionary regionDictionary;
+	private final GeocodingService geocodingService;
 	private final IndustryDictionary industryDictionary;
 	private final StoreService storeService;
 	private final ReportGenerator reportGenerator;
 
 	public QueryResponse handle(String message) {
-		RegionDictionary.Region region = regionDictionary.match(message)
+		Location region = regionDictionary.match(message)
+				.or(() -> geocodingService.resolve(message))
 				.orElseThrow(() -> new ResponseStatusException(BAD_REQUEST,
-						"메시지에서 지역을 인식하지 못했습니다. 예: 둔산동, 노은동, 나성동 등 동 이름을 포함해 질문해주세요."));
+						"메시지에서 지역을 인식하지 못했습니다. 대전·세종의 동/읍/면 이름을 포함해 질문해주세요. (예: 둔산동, 노은동, 나성동)"));
 
 		IndustryDictionary.Match industryMatch = industryDictionary.match(message).orElse(null);
 
