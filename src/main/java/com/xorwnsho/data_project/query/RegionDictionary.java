@@ -37,4 +37,9 @@ public class RegionDictionary {
 				.filter(region -> message.contains(region.name()))
 				.max((a, b) -> Integer.compare(a.name().length(), b.name().length()));
 	}
+
+	/** 자주 쓰이는 지역 이름 목록 (탐색기/비교 화면 드롭다운 힌트용, 자유 입력도 지오코딩으로 지원됨). */
+	public List<String> names() {
+		return REGIONS.stream().map(Location::name).toList();
+	}
 }

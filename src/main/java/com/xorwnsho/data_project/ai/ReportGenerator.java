@@ -23,31 +23,50 @@ public class ReportGenerator {
 			경쟁 밀집도, 업종 공백, 리스크 요인을 짚어주는 자연스러운 상담 말투(2~5문단)로 작성하라.
 			""";
 
+	private static final String COMPARISON_SYSTEM_PROMPT = """
+			너는 대전·세종 지역 예비창업자를 돕는 상권 분석 AI 상담사다.
+			아래에 주어지는 두 지역(업종)의 '상권 데이터'만 근거로 두 곳을 비교하라.
+			데이터에 없는 수치나 정보를 지어내지 마라. 데이터가 부족하면 그 사실을 명시하라.
+			어느 쪽이 어떤 점에서 유리/불리한지 구체적 수치를 인용하며 비교하고,
+			마지막에 결론을 한 문장으로 요약하라 (3~5문단, 자연스러운 상담 말투).
+			""";
+
 	private final OpenAiClient openAiClient;
 
 	public String generate(String userMessage, MarketStats stats) {
-		String userPrompt = buildUserPrompt(userMessage, stats);
-		return openAiClient.chat(SYSTEM_PROMPT, userPrompt);
-	}
-
-	private String buildUserPrompt(String userMessage, MarketStats stats) {
-		String breakdown = stats.industryBreakdown().entrySet().stream()
-				.sorted(Map.Entry.<String, Long>comparingByValue().reversed())
-				.limit(10)
-				.map(entry -> "- %s: %d개".formatted(entry.getKey(), entry.getValue()))
-				.collect(Collectors.joining("\n"));
-
-		return """
+		String userPrompt = """
 				[사용자 질문]
 				%s
 
-				[상권 데이터: %s 반경 500m]
+				%s
+				""".formatted(userMessage, describe("A", stats));
+		return openAiClient.chat(SYSTEM_PROMPT, userPrompt);
+	}
+
+	public String generateComparison(MarketStats a, MarketStats b) {
+		String userPrompt = """
+				%s
+
+				%s
+				""".formatted(describe("A", a), describe("B", b));
+		return openAiClient.chat(COMPARISON_SYSTEM_PROMPT, userPrompt);
+	}
+
+	private String describe(String label, MarketStats stats) {
+		String breakdown = stats.industryBreakdown().entrySet().stream()
+				.sorted(Map.Entry.<String, Long>comparingByValue().reversed())
+				.limit(10)
+				.map(entry -> "  - %s: %d개".formatted(entry.getKey(), entry.getValue()))
+				.collect(Collectors.joining("\n"));
+
+		return """
+				[상권 데이터 %s: %s 반경 500m]
 				- 전체 상가업소 수: %d개
 				- 질의 업종(%s) 경쟁업체 수: %d개
 				- 업종별 분포(상위 10개):
 				%s
 				""".formatted(
-				userMessage,
+				label,
 				stats.regionName(),
 				stats.totalStoreCount(),
 				stats.industryKeyword() == null ? "미지정" : stats.industryKeyword(),
