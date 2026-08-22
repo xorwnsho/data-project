@@ -21,6 +21,8 @@ import java.util.regex.Pattern;
 public class GeocodingService {
 
 	private static final Pattern DONG_PATTERN = Pattern.compile("[가-힣]{2,8}(동|읍|면)");
+	private static final Pattern LANDMARK_PATTERN = Pattern.compile(
+			"[가-힣]{0,10}(역|시청|구청|대학교|대학|병원|공원|터미널|백화점|시장|경찰서|우체국|온천)");
 	private static final long MIN_CALL_INTERVAL_MS = 1100;
 
 	private final NominatimClient nominatimClient;
@@ -46,11 +48,16 @@ public class GeocodingService {
 
 	private Set<String> extractCandidates(String message) {
 		Set<String> candidates = new LinkedHashSet<>();
-		Matcher matcher = DONG_PATTERN.matcher(message);
+		addMatches(candidates, DONG_PATTERN, message);
+		addMatches(candidates, LANDMARK_PATTERN, message);
+		return candidates;
+	}
+
+	private void addMatches(Set<String> candidates, Pattern pattern, String message) {
+		Matcher matcher = pattern.matcher(message);
 		while (matcher.find()) {
 			candidates.add(matcher.group());
 		}
-		return candidates;
 	}
 
 	private Optional<Location> geocode(String city, String candidate) {
