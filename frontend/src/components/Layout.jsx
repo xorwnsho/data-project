@@ -7,14 +7,21 @@ const NAV_ITEMS = [
 	{ to: "/favorites", label: "관심 지역" },
 ];
 
+function scrollToFooter() {
+	document.querySelector(".site-footer")?.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
 export default function Layout() {
 	return (
 		<div className="site">
 			<header className="site-header">
 				<div className="site-header-inner">
 					<div className="site-logo">
-						<span className="app-badge">AI</span>
-						<span className="site-logo-text">대세 상권</span>
+						<span className="brand-mark" aria-hidden="true" />
+						<span className="site-logo-text">
+							대세상권
+							<span className="site-logo-tagline">AI 창업 입지 분석</span>
+						</span>
 					</div>
 					<nav className="site-nav">
 						{NAV_ITEMS.map((item) => (
@@ -37,10 +44,14 @@ export default function Layout() {
 
 			<footer className="site-footer">
 				<p>
-					본 서비스는 소상공인시장진흥공단 상가(상권)정보 오픈API(data.go.kr)를 활용합니다.
-					AI 리포트는 실제 조회된 상권 데이터를 근거로 생성되며, 창업 의사결정의 참고 자료로만 활용해주세요.
+					데이터 출처: <strong>공공데이터포털(data.go.kr)</strong> — 소상공인시장진흥공단 상권정보
 				</p>
+				<p>※ AI 분석 리포트는 참고용이며 실제 창업 결정의 근거로 단독 사용하지 마십시오.</p>
 			</footer>
+
+			<button type="button" className="help-fab" onClick={scrollToFooter} aria-label="데이터 출처 안내">
+				?
+			</button>
 		</div>
 	);
 }

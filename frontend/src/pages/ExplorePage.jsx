@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { extractErrorMessage, getExplore, getIndustries, getRegions } from "../api/queryApi";
+import QuickLinks from "../components/QuickLinks";
 import StatsSummary from "../components/StatsSummary";
 import StoreMap from "../components/StoreMap";
 import FavoriteButton from "../components/FavoriteButton";
@@ -39,9 +40,12 @@ export default function ExplorePage() {
 	return (
 		<div className="page">
 			<div className="page-intro">
+				<span className="page-kicker">데이터 탐색</span>
 				<h1>상권 지도 탐색기</h1>
 				<p>지역과 업종을 골라 반경 내 상가 데이터를 지도와 통계로 바로 확인하세요.</p>
 			</div>
+
+			<QuickLinks />
 
 			<form className="explore-form" onSubmit={handleSubmit}>
 				<div className="explore-field">
@@ -85,6 +89,13 @@ export default function ExplorePage() {
 			</form>
 
 			{error && <div className="error-box">{error}</div>}
+
+			{!stats && !error && (
+				<div className="empty-state">
+					<span style={{ fontSize: "2rem" }}>◇</span>
+					<p style={{ margin: 0 }}>지역, 업종, 반경을 선택하고 탐색 버튼을 눌러보세요</p>
+				</div>
+			)}
 
 			{stats && (
 				<div className="result-grid">

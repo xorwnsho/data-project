@@ -32,7 +32,8 @@
 - DB: MySQL 8 (Docker 컨테이너)
 - AI: OpenAI **gpt-4o-mini** (호출은 백엔드에서만)
 - 외부 데이터: 소상공인시장진흥공단 상가(상권)정보 오픈API (data.go.kr)
-- 배포: Vercel(프론트) + Oracle Cloud Always Free VM(백엔드, **ARM aarch64**) + Cloudflare Tunnel(HTTPS)
+- 배포: Vercel(프론트) + 연구실 라즈베리파이(백엔드) + Cloudflare Tunnel(HTTPS)
+  (Oracle Cloud Always Free ARM 인스턴스는 리전 용량 부족으로 생성 실패, 라즈베리파이로 전환)
 
 ## 아키텍처 규칙 (반드시 준수)
 - **모든 외부 API 키(OpenAI, data.go.kr)는 백엔드에만.** 프론트 번들/env에 절대 노출 금지.
@@ -40,7 +41,7 @@
   프론트에서 외부 API를 직접 부르지 않는다.
 - 키·시크릿은 환경변수로 주입, git 커밋 금지(.gitignore + .env.example 제공).
 - 백엔드는 HTTPS 필수(Cloudflare Tunnel). CORS는 Vercel 도메인을 허용 오리진으로.
-- 배포 대상이 ARM(aarch64)이므로 Docker 이미지·의존성의 arm64 호환을 확인.
+- 배포 대상이 라즈베리파이(ARM aarch64/armv7, 모델에 따라 다름)이므로 Docker 이미지·의존성의 ARM 호환을 확인.
 - 설정(포트, CORS 오리진, DB 접속, 키)은 하드코딩하지 말고 전부 환경변수로 외부화.
 
 ## 데이터 명세 (소상공인 상권 API)

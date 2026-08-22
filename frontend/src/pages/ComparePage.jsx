@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
 import { extractErrorMessage, getIndustries, getRegions, postCompare } from "../api/queryApi";
+import QuickLinks from "../components/QuickLinks";
 import StatsSummary from "../components/StatsSummary";
 import ReportText from "../components/ReportText";
 import StoreMap from "../components/StoreMap";
 
-function TargetPicker({ label, value, onChange, regions, industries }) {
+function TargetPicker({ label, pill, value, onChange, regions, industries }) {
 	return (
 		<div className="compare-picker">
-			<h3>{label}</h3>
+			<h3 className={pill}>{label}</h3>
 			<div className="explore-field">
 				<label>지역</label>
 				<input
@@ -68,13 +69,16 @@ export default function ComparePage() {
 	return (
 		<div className="page">
 			<div className="page-intro">
+				<span className="page-kicker">비교 분석</span>
 				<h1>지역·업종 비교 리포트</h1>
 				<p>두 지역(또는 같은 지역의 다른 업종)을 나란히 비교해 AI가 근거를 들어 요약해드립니다.</p>
 			</div>
 
+			<QuickLinks />
+
 			<form className="compare-form" onSubmit={handleSubmit}>
-				<TargetPicker label="A" value={a} onChange={setA} regions={regions} industries={industries} />
-				<TargetPicker label="B" value={b} onChange={setB} regions={regions} industries={industries} />
+				<TargetPicker label="지역 A" pill="pill-a" value={a} onChange={setA} regions={regions} industries={industries} />
+				<TargetPicker label="지역 B" pill="pill-b" value={b} onChange={setB} regions={regions} industries={industries} />
 				<div className="compare-submit">
 					<button className="submit-button" type="submit" disabled={loading || !a.region.trim() || !b.region.trim()}>
 						{loading ? "비교 중..." : "비교하기"}
@@ -88,11 +92,11 @@ export default function ComparePage() {
 				<>
 					<div className="result-grid">
 						<section className="report-panel">
-							<h3 className="compare-label">A · {result.a.regionName}</h3>
+							<h3 className="compare-label pill-a">지역 A · {result.a.regionName}</h3>
 							<StatsSummary stats={result.a} />
 						</section>
 						<section className="report-panel">
-							<h3 className="compare-label">B · {result.b.regionName}</h3>
+							<h3 className="compare-label pill-b">지역 B · {result.b.regionName}</h3>
 							<StatsSummary stats={result.b} />
 						</section>
 					</div>

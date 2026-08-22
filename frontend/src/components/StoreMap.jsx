@@ -54,8 +54,8 @@ export default function StoreMap({ stats }) {
 						style={{ height: "100%", width: "100%" }}
 					>
 						<TileLayer
-							attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-							url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+							attribution='&copy; <a href="https://carto.com/">CARTO</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+							url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
 						/>
 						<FitBounds points={points} />
 						{points.map((store, i) => {
@@ -66,8 +66,8 @@ export default function StoreMap({ stats }) {
 									center={[store.lat, store.lon]}
 									radius={matched ? 6 : 4}
 									pathOptions={{
-										color: matched ? "#d9480f" : "#1c5cab",
-										fillColor: matched ? "#eb6834" : "#2a78d6",
+										color: matched ? "#b85530" : "#1f6e62",
+										fillColor: matched ? "#e8734a" : "#2f9e8f",
 										fillOpacity: matched ? 0.9 : 0.6,
 										weight: 1,
 									}}

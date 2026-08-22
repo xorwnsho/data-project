@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { getExplore } from "../api/queryApi";
 import { getFavorites, removeFavorite } from "../lib/favorites";
+import QuickLinks from "../components/QuickLinks";
 
 export default function FavoritesPage() {
 	const [favorites, setFavorites] = useState(() => getFavorites());
@@ -45,10 +46,16 @@ export default function FavoritesPage() {
 		return (
 			<div className="page">
 				<div className="page-intro">
+					<span className="page-kicker">저장한 지역</span>
 					<h1>관심 지역</h1>
-					<p>아직 저장한 지역이 없습니다. 상권 탐색기나 AI 상담에서 ☆ 버튼으로 추가해보세요.</p>
 				</div>
-				<Link className="ai-link" to="/explore">상권 탐색기로 이동 →</Link>
+				<QuickLinks />
+				<div className="empty-state">
+					<span style={{ fontSize: "2rem" }}>☆</span>
+					<p style={{ margin: 0, color: "var(--text-primary)", fontWeight: 600 }}>저장된 관심 지역이 없습니다</p>
+					<p style={{ margin: 0 }}>AI 상담 또는 상권 탐색기에서 분석 결과의 ☆ 버튼을 눌러 관심 지역을 저장하세요</p>
+					<Link className="ai-link" to="/explore">상권 탐색기로 이동 →</Link>
+				</div>
 			</div>
 		);
 	}
@@ -56,9 +63,12 @@ export default function FavoritesPage() {
 	return (
 		<div className="page">
 			<div className="page-intro">
+				<span className="page-kicker">저장한 지역</span>
 				<h1>관심 지역</h1>
 				<p>저장해 둔 지역의 최신 상권 데이터를 한눈에 확인하세요.</p>
 			</div>
+
+			<QuickLinks />
 
 			<div className="favorites-grid">
 				{favorites.map((f) => {

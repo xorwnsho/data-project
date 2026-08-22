@@ -17,18 +17,24 @@ export default function StatsSummary({ stats }) {
 				</div>
 				<div className="stat-card">
 					<span className="stat-label">전체 상가업소 수</span>
-					<span className="stat-value">{stats.totalStoreCount.toLocaleString()}개</span>
+					<span className="stat-value">
+						{stats.totalStoreCount.toLocaleString()}
+						<span className="stat-unit">개</span>
+					</span>
 				</div>
 				{stats.industryKeyword && (
-					<div className="stat-card">
+					<div className="stat-card highlight">
 						<span className="stat-label">{stats.industryKeyword} 경쟁업체 수</span>
-						<span className="stat-value">{stats.competitorCount.toLocaleString()}개</span>
+						<span className="stat-value">
+							{stats.competitorCount.toLocaleString()}
+							<span className="stat-unit">개</span>
+						</span>
 					</div>
 				)}
 			</div>
 
 			<div className="breakdown">
-				<h3>업종별 분포 (상위 5)</h3>
+				<h3>업종별 분포 TOP 5</h3>
 				<div className="breakdown-list">
 					{breakdown.map(([name, count]) => (
 						<div className="breakdown-row" key={name}>
